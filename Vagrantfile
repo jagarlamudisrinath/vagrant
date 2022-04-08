@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     master.vm.box = "centos/stream8"
     master.vm.hostname = 'master'
     master.vm.box_url = "centos/stream8"
-    master.vm.provision "shell", inline: $script
+    master.vm.provision "shell", inline: $script, run: "always"
     master.vm.network :private_network, ip: "192.168.57.4", name: "vboxnet0"
 
     master.vm.provider :virtualbox do |v|
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     worker0.vm.box = "centos/stream8"
     worker0.vm.hostname = 'worker0'
     worker0.vm.box_url = "centos/stream8"
-    worker0.vm.provision "shell", inline: $script0
+    worker0.vm.provision "shell", inline: $script0,  run: "always"
     worker0.vm.network :private_network, ip: "192.168.56.4", name: "vboxnet1"
 
     worker0.vm.provider :virtualbox do |v|
@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     worker1.vm.box = "centos/stream8"
     worker1.vm.hostname = 'worker1'
     worker1.vm.box_url = "centos/stream8"
-    worker1.vm.provision "shell", inline: $script0
+    worker1.vm.provision "shell", inline: $script0,  run: "always"
     worker1.vm.network :private_network, ip: "192.168.56.5", name: "vboxnet1"
 
     worker1.vm.provider :virtualbox do |v|
