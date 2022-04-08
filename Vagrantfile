@@ -1,14 +1,16 @@
 Vagrant.configure("2") do |config|
   $script = <<-SCRIPT
   sudo dnf install net-tools-2.0-0.52.20160912git.el8.x86_64 -y
+  cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
   route add default gw 192.168.57.1
   SCRIPT
 
   $script0 = <<-SCRIPT
   sudo dnf install net-tools-2.0-0.52.20160912git.el8.x86_64 -y
+  cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
   route add default gw 192.168.56.1
   SCRIPT
-
+  config.vm.provision "file", source: "id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
   config.vm.define "master" do |master|
     master.vm.box = "centos/stream8"
     master.vm.hostname = 'master'
