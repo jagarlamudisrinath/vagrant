@@ -1,13 +1,13 @@
 
 
 #Host 1
-virtual subnet 192.168.121.0
+virtual subnet 192.168.57.0
 route add default gw 192.168.57.1
 route add -net 192.168.56.0 netmask 255.255.255.0 gw 10.0.0.10
 
 
 #host 2
-virtual subnet 192.168.156.0
+virtual subnet 192.168.56.0
 route add default gw 192.168.56.1
 route add -net 192.168.57.0 netmask 255.255.255.0 gw 10.0.0.56
 
