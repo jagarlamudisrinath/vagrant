@@ -29,6 +29,13 @@ yum install -y kubeadm kubelet kubectl
 systemctl enable --now kubelet
 
 
+
+cat >>/etc/docker/daemon.json<<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+
 kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
 
 HOME=/home/vagrant
