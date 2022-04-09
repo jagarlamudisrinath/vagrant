@@ -1,18 +1,24 @@
 
 
-#Host 1
-virtual subnet 192.168.57.0
-route add default gw 192.168.57.1
-route add -net 192.168.56.0 netmask 255.255.255.0 gw 10.0.0.10
+#Host 1 Srinath
+virtual subnet 172.16.0.0
+route add default gw 172.16.0.0
+route add -net 172.16.0.0 netmask 255.255.255.0 gw 10.0.0.10
 
 
-#host 2
-virtual subnet 192.168.56.0
-route add default gw 192.168.56.1
-route add -net 192.168.57.0 netmask 255.255.255.0 gw 10.0.0.56
+#host 2 Akhil
+virtual subnet 172.16.1.0
+route add default gw 172.16.1.1
+route add -net 172.16.1.0 netmask 255.255.255.0 gw 10.0.0.56
 
+Srinath
+sudo iptables -A FORWARD -o wlp1s0 -i vboxnet0 -s 172.16.0.0/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t nat -F POSTROUTING
+sudo iptables -t nat -A POSTROUTING -o wlp1s0 -j MASQUERADE
 
-sudo iptables -A FORWARD -o wlp1s0 -i vboxnet0 -s 192.168.57.0/24 -m conntrack --ctstate NEW -j ACCEPT
+Akhil
+sudo iptables -A FORWARD -o wlp1s0 -i vboxnet0 -s 172.16.1.0/24 -m conntrack --ctstate NEW -j ACCEPT
 sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 sudo iptables -t nat -F POSTROUTING
 sudo iptables -t nat -A POSTROUTING -o wlp1s0 -j MASQUERADE
