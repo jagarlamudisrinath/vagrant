@@ -1,3 +1,26 @@
+yum install net-tools-2.0-0.52.20160912git.el8.x86_64
+systemctl disable firewalld; systemctl stop firewalld
+swapoff -a; sed -i '/swap/d' /etc/fstab
+setenforce 0
+sed -i --follow-symlinks 's/^SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
+
+dnf install -y iproute-tc
+cat >>/etc/sysctl.d/kubernetes.conf<<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce
+
+systemctl enable --now docker
+cat >>/etc/docker/daemon.json<<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+systemctl restart docker
 systemctl disable firewalld; systemctl stop firewalld
 swapoff -a; sed -i '/swap/d' /etc/fstab
 setenforce 0
