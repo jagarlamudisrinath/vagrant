@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     master.vm.network :private_network, ip: "172.16.0.100", name: "vboxnet0"
 
     master.vm.provider :virtualbox do |v|
-      v.customize ["modifyvm", :id, "--memory", 4096]
+      v.customize ["modifyvm", :id, "--memory", 2094]
       v.customize ["modifyvm", :id, "--cpus", 2]
       v.customize ["modifyvm", :id, "--name", "master"]
     end
@@ -29,8 +29,8 @@ Vagrant.configure("2") do |config|
     worker0.vm.box = "centos/stream8"
     worker0.vm.hostname = 'kworker0'
     worker0.vm.box_url = "centos/stream8"
-    worker0.vm.provision "shell", inline: $script0,  run: "always"
-    worker0.vm.network :private_network, ip: "172.16.1.101", name: "vboxnet0"
+    worker0.vm.provision "shell", inline: $script,  run: "always"
+    worker0.vm.network :private_network, ip: "172.16.0.101", name: "vboxnet0"
 
     worker0.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--memory", 1024]
